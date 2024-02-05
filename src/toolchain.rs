@@ -325,6 +325,7 @@ fn build_libc(
     eprintln!("Building wasm32...");
     Command::new("make")
         .arg("clean")
+        .env("THREAD_MODEL", "single")
         .current_dir(&libc_dir)
         .run_verbose()?;
     Command::new("bash")
@@ -339,6 +340,7 @@ fn build_libc(
     eprintln!("Building wasm64...");
     Command::new("make")
         .arg("clean")
+        .env("THREAD_MODEL", "single")
         .current_dir(&libc_dir)
         .run_verbose()?;
     Command::new("bash")
