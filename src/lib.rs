@@ -240,11 +240,6 @@ fn rmain(config: &mut Config) -> Result<()> {
         config.verbose(|| config.status("WASI_SDK_DIR={}", &sysroot.display().to_string()));
     }
 
-    // Set some flags for rustc (only if RUSTFLAGS is not already set)
-    if std::env::var("RUSTFLAGS").is_err() {
-        env::set_var("RUSTFLAGS", "-C target-feature=+atomics");
-    }
-
     // Check the dependencies, if needed, before running cargo.
     if check_deps {
         if let Err(err) = dependencies::check(config, target) {
@@ -289,10 +284,6 @@ fn rmain(config: &mut Config) -> Result<()> {
     for run in build.runs.iter() {
         config.status("Running", &format!("`{}`", run.join(" ")));
         let mut cmd = Command::new(&wasix_runner);
-
-        if wasix_runner == "wasmer" {
-            cmd.arg("--enable-threads");
-        }
 
         cmd.arg("--")
             .args(run.iter())
@@ -459,7 +450,6 @@ fn run_wasm_opt(
     cmd.arg(format!("-O{}", profile.opt_level));
     cmd.arg("-o").arg(wasm);
     cmd.arg("--enable-bulk-memory");
-    cmd.arg("--enable-threads");
     cmd.arg("--enable-reference-types");
     cmd.arg("--no-validation");
     cmd.arg("--asyncify");

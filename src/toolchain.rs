@@ -19,7 +19,7 @@ use crate::{
 };
 
 /// Custom rust repository.
-const RUST_REPO: &str = "https://github.com/wasix-org/rust.git";
+const RUST_REPO: &str = "https://github.com/dangeross/rust.git";
 /// Branch to use in the custom Rust repo.
 const RUST_BRANCH: &str = "wasix";
 
